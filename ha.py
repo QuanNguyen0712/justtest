@@ -38,6 +38,8 @@ with col3:
             merged['M_Monthly_Amount'] = merged['Amount_M'] - merged['Amount_M-1']
 
             merged['M_Monthly_EURAmount'] = merged['Amount In EUR_M'] - merged['Amount In EUR_M-1']
+
+            merged = merged.drop_duplicates()
             
         st.download_button(
             label="📥 Download Here",
