@@ -23,7 +23,6 @@ with col3:
         st.success("✅ Files uploaded successfully!")
         
         if df1 is not None and df2 is not None:
-            merged_df = pd.concat([df1, df2], ignore_index=True)
             key_cols = ['Entity', 'Cons', 'Scenario', 'View', 'Account Parent', 'Account',
                         'Flow', 'Origin', 'IC', 'FinalClient Group', 'FinalClient', 'Client',
                         'FinancialManager', 'Governance Level', 'Governance', 'Commodity',
@@ -31,12 +30,12 @@ with col3:
                         'ContractType', 'AmountCurrency', 'IntercoType', 'ICDetails', 'EmployedBy', 'AccountType']
 
             # Merge February and January on all identifying columns
-            merged = pd.merge(df2, df1, on=key_cols, how= 'left', suffixes=('_feb', '_jan'))
+            merged = pd.merge(df1, df2, on=key_cols, how= 'left', suffixes=('_M', '_M-1'))
 
             # Calculate monthly February amount
-            merged['Feb_Monthly_Amount'] = merged['Amount_feb'] - merged['Amount_jan']
+            merged['M_Monthly_Amount'] = merged['Amount_M'] - merged['Amount_M-1']
 
-            merged['Feb_Monthly_EURAmount'] = merged['Amount In EUR_feb'] - merged['Amount In EUR_jan']
+            merged['M_Monthly_EURAmount'] = merged['Amount In EUR_M'] - merged['Amount In EUR_M-1']
             
         st.download_button(
             label="📥 Download Here",
