@@ -31,6 +31,8 @@ with col3:
 
             # Merge February and January on all identifying columns
             merged = pd.merge(df1, df2, on=key_cols, how= 'left', suffixes=('_M', '_M-1'))
+            merged = merged.fillna(0)
+            
 
             # Calculate monthly February amount
             merged['M_Monthly_Amount'] = merged['Amount_M'] - merged['Amount_M-1']
