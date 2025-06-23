@@ -34,7 +34,7 @@ with col3:
             df2 = df2.groupby(key_cols, as_index=False, dropna=False).agg({'Amount': 'sum', 'Amount In EUR': 'sum'})
             
             # Merge February and January on all identifying columns
-            merged = pd.merge(df1, df2, on=key_cols, how= 'left', suffixes=('_M', '_M-1'))
+            merged = pd.merge(df1, df2, on=key_cols, how= 'outer', suffixes=('_M', '_M-1'))
             merged = merged.fillna(0)
             
 
