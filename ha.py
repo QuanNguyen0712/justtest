@@ -28,7 +28,11 @@ with col3:
                         'FinancialManager', 'Governance Level', 'Governance', 'Commodity',
                         'AuditID', 'UD8', 'Project', 'Employee', 'Supplier', 'InvoiceType',
                         'ContractType', 'AmountCurrency', 'IntercoType', 'ICDetails', 'EmployedBy', 'AccountType']
+            # Groupby to prevent the Cartesian product due to duplication:
 
+            df1 = df1.groupby(key_cols).agg({'Amount': 'sum', Amount In EUR: 'sum'})
+            df2 = df2.groupby(key_cols).agg({'Amount': 'sum', Amount In EUR: 'sum'})
+            
             # Merge February and January on all identifying columns
             merged = pd.merge(df1, df2, on=key_cols, how= 'left', suffixes=('_M', '_M-1'))
             merged = merged.fillna(0)
@@ -38,8 +42,6 @@ with col3:
             merged['M_Monthly_Amount'] = merged['Amount_M'] - merged['Amount_M-1']
 
             merged['M_Monthly_EURAmount'] = merged['Amount In EUR_M'] - merged['Amount In EUR_M-1']
-
-            merged = merged.drop_duplicates()
             
         st.download_button(
             label="📥 Download Here",
