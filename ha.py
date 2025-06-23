@@ -30,8 +30,8 @@ with col3:
                         'ContractType', 'AmountCurrency', 'IntercoType', 'ICDetails', 'EmployedBy', 'AccountType']
             # Groupby to prevent the Cartesian product due to duplication:
 
-            df1 = df1.groupby(key_cols, as_index=False).agg({'Amount': 'sum', 'Amount In EUR': 'sum'})
-            df2 = df2.groupby(key_cols, as_index=False).agg({'Amount': 'sum', 'Amount In EUR': 'sum'})
+            df1 = df1.groupby(key_cols, as_index=False, dropna=False).agg({'Amount': 'sum', 'Amount In EUR': 'sum'})
+            df2 = df2.groupby(key_cols, as_index=False, dropna=False).agg({'Amount': 'sum', 'Amount In EUR': 'sum'})
             
             # Merge February and January on all identifying columns
             merged = pd.merge(df1, df2, on=key_cols, how= 'left', suffixes=('_M', '_M-1'))
